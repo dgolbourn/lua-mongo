@@ -125,7 +125,15 @@ static const luaL_Reg client_pool_funcs[] = {
 };
 
 int newClientPool(lua_State *L) {
-	mongoc_client_pool_t *client_pool = mongoc_client_pool_new(luaL_checkstring(L, 1));
+	bson_error_t error;
+	mongoc_uri_t *uri = mongoc_uri_new_with_error(luaL_checkstring(L, 1), &error);
+	if(!uri) {
+		lua_pushnil(L);
+		lua_pushstring(error.message);
+      	return 2;
+	}
+	mongoc_client_pool_t *client_pool = mongoc_client_pool_new(uri);
+	mongoc_uri_destroy(uri);
 	luaL_argcheck(L, client_pool, 1, "invalid format");
 	pushHandle(L, client_pool, 0, 0);
 	setType(L, TYPE_CLIENT_POOL, client_pool_funcs);
