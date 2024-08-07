@@ -33,6 +33,7 @@ static const luaL_Reg funcs[] = {
 	{"Binary", newBinary},
 	{"BSON", newBSON},
 	{"Client", newClient},
+	{"ClientPool", newClientPool},
 	{"DateTime", newDateTime},
 	{"Decimal128", newDecimal128},
 	{"Double", newDouble},
