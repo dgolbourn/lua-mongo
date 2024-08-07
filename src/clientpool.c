@@ -129,7 +129,7 @@ int newClientPool(lua_State *L) {
 	mongoc_uri_t *uri = mongoc_uri_new_with_error(luaL_checkstring(L, 1), &error);
 	if(!uri) {
 		lua_pushnil(L);
-		lua_pushstring(error.message);
+		lua_pushstring(L, error.message);
       	return 2;
 	}
 	mongoc_client_pool_t *client_pool = mongoc_client_pool_new(uri);
