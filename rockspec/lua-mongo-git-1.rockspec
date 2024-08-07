@@ -1,7 +1,7 @@
 package = 'lua-mongo'
 version = 'git-1'
 source = {
-	url = 'git://github.com/neoxic/lua-mongo.git',
+	url = 'git://github.com/dgolbourn/lua-mongo',
 }
 description = {
 	summary = 'MongoDB Driver for Lua',
@@ -39,6 +39,7 @@ build = {
 				'src/bsontype.c',
 				'src/bulkoperation.c',
 				'src/client.c',
+				'src/clientpool.c',				
 				'src/collection.c',
 				'src/cursor.c',
 				'src/database.c',

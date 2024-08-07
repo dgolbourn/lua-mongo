@@ -36,6 +36,7 @@
 #define TYPE_BSON "mongo.BSON"
 #define TYPE_BULKOPERATION "mongo.BulkOperation"
 #define TYPE_CLIENT "mongo.Client"
+#define TYPE_CLIENT_POOL "mongo.ClientPool"
 #define TYPE_COLLECTION "mongo.Collection"
 #define TYPE_CURSOR "mongo.Cursor"
 #define TYPE_DATABASE "mongo.Database"
@@ -52,6 +53,7 @@
 #define TYPE_MINKEY "mongo.MinKey"
 #define TYPE_NULL "mongo.Null"
 #define TYPE_OBJECTID "mongo.ObjectID"
+#define TYPE_POOLED_CLIENT "mongo.Client(Pooled)"
 #define TYPE_READPREFS "mongo.ReadPrefs"
 #define TYPE_REGEX "mongo.Regex"
 #define TYPE_TIMESTAMP "mongo.Timestamp"
@@ -74,6 +76,7 @@ extern char GLOBAL_MAXKEY, GLOBAL_MINKEY, GLOBAL_NULL;
 int newBinary(lua_State *L);
 int newBSON(lua_State *L);
 int newClient(lua_State *L);
+int newClientPool(lua_State *L);
 int newDateTime(lua_State *L);
 int newDecimal128(lua_State *L);
 int newDouble(lua_State *L);
@@ -116,12 +119,14 @@ bson_oid_t *testObjectID(lua_State *L, int idx);
 
 mongoc_bulk_operation_t *checkBulkOperation(lua_State *L, int idx);
 mongoc_client_t *checkClient(lua_State *L, int idx);
+mongoc_client_pool_t *checkClientPool(lua_State *L, int idx);
 mongoc_collection_t *checkCollection(lua_State *L, int idx);
 mongoc_cursor_t *checkCursor(lua_State *L, int idx);
 mongoc_database_t *checkDatabase(lua_State *L, int idx);
 mongoc_gridfs_t *checkGridFS(lua_State *L, int idx);
 mongoc_gridfs_file_t *checkGridFSFile(lua_State *L, int idx);
 mongoc_gridfs_file_list_t *checkGridFSFileList(lua_State *L, int idx);
+mongoc_client_t *checkPooledClient(lua_State *L, int idx);
 mongoc_read_prefs_t *checkReadPrefs(lua_State *L, int idx);
 mongoc_read_prefs_t *toReadPrefs(lua_State *L, int idx);
 
