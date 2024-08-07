@@ -83,7 +83,7 @@ mongoc_client_t *checkPooledClient(lua_State *L, int idx) {
 
 static int m_client_pool_try_pop(lua_State *L) {
 	mongoc_client_pool_t *client_pool = checkClientPool(L, 1);
-	mongoc_client_t *client = mongoc_client_pool_try_pop(client_pool)
+	mongoc_client_t *client = mongoc_client_pool_try_pop(client_pool);
 	if(client) {
 		pushHandle(L, client, 0, 0);
 		setType(L, TYPE_POOLED_CLIENT, pooled_client_funcs);
@@ -94,7 +94,7 @@ static int m_client_pool_try_pop(lua_State *L) {
 
 static int m_client_pool_pop(lua_State *L) {
 	mongoc_client_pool_t *client_pool = checkClientPool(L, 1);
-	mongoc_client_t *client = mongoc_client_pool_pop(client_pool)
+	mongoc_client_t *client = mongoc_client_pool_pop(client_pool);
 	if(client) {
 		pushHandle(L, client, 0, 0);
 		setType(L, TYPE_POOLED_CLIENT, pooled_client_funcs);
