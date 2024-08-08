@@ -77,6 +77,16 @@ static const luaL_Reg pooled_client_funcs[] = {
 	{0, 0}
 };
 
+int newPooledClient(lua_State *L) {
+	mongoc_client_t *client = lua_touserdata(L, 1);
+	if(client) {
+		pushHandle(L, client, 0, 0);
+		setType(L, TYPE_POOLED_CLIENT, funcs);
+		return 1;
+	}
+	return 0;
+}
+
 mongoc_client_t *checkPooledClient(lua_State *L, int idx) {
 	return *(mongoc_client_t **)luaL_checkudata(L, idx, TYPE_POOLED_CLIENT);
 }
@@ -85,9 +95,8 @@ static int m_client_pool_try_pop(lua_State *L) {
 	mongoc_client_pool_t *client_pool = checkClientPool(L, 1);
 	mongoc_client_t *client = mongoc_client_pool_try_pop(client_pool);
 	if(client) {
-		pushHandle(L, client, 0, 0);
-		setType(L, TYPE_POOLED_CLIENT, pooled_client_funcs);
-		return 1;	
+		lua_pushlightuserdata(L, client);
+		return 1;
 	}
 	return 0;
 }
@@ -96,17 +105,18 @@ static int m_client_pool_pop(lua_State *L) {
 	mongoc_client_pool_t *client_pool = checkClientPool(L, 1);
 	mongoc_client_t *client = mongoc_client_pool_pop(client_pool);
 	if(client) {
-		pushHandle(L, client, 0, 0);
-		setType(L, TYPE_POOLED_CLIENT, pooled_client_funcs);
-		return 1;	
+		lua_pushlightuserdata(L, client);
+		return 1;
 	}
 	return 0;
 }
 
 static int m_client_pool_push(lua_State *L) {
 	mongoc_client_pool_t *client_pool = checkClientPool(L, 1);
-	mongoc_client_t *client = checkPooledClient(L, 2);
-	mongoc_client_pool_push(client_pool, client);
+	mongoc_client_t *client = lua_touserdata(L, 2);
+	if(client) {
+		mongoc_client_pool_push(client_pool, client);
+	}
 	return 0;
 }
 
